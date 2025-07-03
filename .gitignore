@@ -138,6 +138,7 @@ celerybeat.pid
 .env
 .envrc
 .venv
+.Modular-Data-Dasboard/
 env/
 venv/
 ENV/
