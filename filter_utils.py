@@ -4,10 +4,6 @@ import pandas as pd
 import streamlit as st
 
 # Options for choosing the filters to apply
-category_of_filters = [
-    "1. Comparisons (>, <, ...)",
-    "2. Strings",
-]
 comparison_filters = {
     "1. Greater than (>)": operator.gt,
     "2. Greater equal (>=)": operator.ge,
@@ -32,9 +28,9 @@ string_filters = [
     "2. Starting with a specific letter (or phrase)",
     "3. Finishing with a specific letter (or phrase)",
     "4. Not including a specific word",
-    "5. Has at least X letters (you specify the letter)",
-    "6. Has at most X letters (you specify the letter)",
-    "7. Is in between X and Y letters (you specify the letters)",
+    "5. Has at least X times certain letter (you specify the letter)",
+    "6. Has at most X times certain letter (you specify the letter)",
+    "7. Is in between X and Y times certain letter (you specify the letters)",
 ]
 
 
@@ -150,6 +146,72 @@ def filtering_menu(data_frame, column):
                 ) & (
                     data_frame[column]
                     < min(one_comparison_date, another_comparison_date)
+                )
+    else:  # Are normal strings
+        filter_selected = st.selectbox(
+            f"Column's Data Type: {data_type}\nSelect the filter you want to apply:",
+            list(string_filters),
+        )
+
+        string_given = st.text_input(
+            "Introduce a phrase",
+            label_visibility="collapsed",
+            placeholder="introduce a letter (or phrase for comparing)",
+        )
+
+        match filter_selected[0]:
+            case "1":
+                comparison_sentence = data_frame[column] == string_given
+            case "2":
+                comparison_sentence = data_frame[column].str.contains(
+                    f"^{string_given}"
+                )
+            case "3":
+                comparison_sentence = data_frame[column].str.contains(
+                    f"{string_given}$"
+                )
+            case "4":
+                comparison_sentence = ~data_frame[column].str.contains(string_given)
+            case "5":
+                amount = st.number_input(
+                    "How many times can be the letter (or word ...) repeted",
+                    label_visibility="collapsed",
+                    placeholder="How many times can be the letter (or word ...) repeted",
+                    step=1,
+                )
+                comparison_sentence = data_frame[column].str.contains(
+                    f"{string_given}{{{int(amount)},}}"
+                )
+            case "6":
+                amount = st.number_input(
+                    "How many times can be the letter (or word ...) repeted",
+                    label_visibility="collapsed",
+                    placeholder="How many times can be the letter (or word ...) repeted",
+                    step=1,
+                )
+                comparison_sentence = data_frame[column].str.contains(
+                    f"{string_given}{{,{int(amount)}}}"
+                )
+            case "7":
+                smaller_amount = st.number_input(
+                    "Minimum times that the letter (or word ...) will be repeted",
+                    label_visibility="collapsed",
+                    placeholder="How many times can be the letter (or word ...) repeted",
+                    step=1,
+                )
+                bigger_amount = st.number_input(
+                    "Maximum times that the letter (or word ...) will be repeted",
+                    label_visibility="collapsed",
+                    placeholder="How many times can be the letter (or word ...) repeted",
+                    step=1,
+                )
+                if smaller_amount > bigger_amount:
+                    st.error(
+                        f"The smaller amount ({smaller_amount}) is bigger than the larger one ({bigger_amount})"
+                    )
+
+                comparison_sentence = data_frame[column].str.contains(
+                    f"{string_given}{{{int(smaller_amount)},{int(bigger_amount)}}}"
                 )
 
     return comparison_sentence
