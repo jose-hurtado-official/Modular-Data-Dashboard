@@ -1,5 +1,6 @@
 """Module for loading data from URLs or local files (CSV/JSON) into pandas DataFrames."""
 
+# Todo: add excel support
 import json
 import pandas as pd
 import requests as rq
