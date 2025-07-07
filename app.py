@@ -14,7 +14,6 @@ data = st.text_input(
 
 if data:
     data_frame = load_data(data)
-    st.map(data_frame)
     if isinstance(data_frame, pd.DataFrame):
         rows = st.radio(
             "Select the amount of row you want to be displied in the preview of the data frame",
