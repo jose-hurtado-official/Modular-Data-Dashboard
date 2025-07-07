@@ -1,9 +1,9 @@
 """Module for loading data from URLs or local files (CSV/JSON) into pandas DataFrames."""
 
-# Todo: add excel support
 import json
 import pandas as pd
 import requests as rq
+import platform
 
 
 def load_data(source: str):
@@ -15,6 +15,8 @@ def load_data(source: str):
         if source.lower().startswith(("https://", "http://")):  # URL
             if source.lower().endswith(".csv"):  # Csv
                 return pd.read_csv(source)
+            elif source.lower().endswith((".xlsx", ".xls")):  # Excel
+                return pd.read_excel(source, engine="openpyxl")
             else:  # Json
                 payload = rq.get(source, timeout=10).json()  # Convert to Python objects
                 return pd.json_normalize(payload)  # Flatten the payload
@@ -22,12 +24,23 @@ def load_data(source: str):
         else:  # We assume that it is locally stored
             if source.lower().endswith(".csv"):
                 return pd.read_csv(source)
+            elif source.lower().endswith((".xlsx", ".xls")):
+                return pd.read_excel(source, engine="openpyxl")
             elif source.lower().endswith(".json"):
                 with open(source, "r", encoding="utf-8") as read_file:
                     data = json.load(read_file)  # Convert it into Python Objects
                 return pd.json_normalize(data)  # Flatten the payload
             else:
-                return 'Unsupported file type\nSupported ones: "csv" and "json"'
+                if platform.system() == "Windows":  # Windows users use \n\r
+                    return (
+                        "Unsupported file type\n\r"
+                        "Supported extensions: '.csv', '.json', '.xls', '.xlsx'"
+                    )
+                else:  # Linux and IOS users use \n
+                    return (
+                        "Unsupported file type\n"
+                        "Supported extensions: '.csv', '.json', '.xls', '.xlsx'"
+                    )
 
     except FileNotFoundError as e:
         return (
