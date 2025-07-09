@@ -1,8 +1,9 @@
+from typing import Optional
 import datetime
 import operator
 import pandas as pd
 import streamlit as st
-from typing import Optional
+
 
 # Options for choosing the filters to apply
 comparison_filters = {
