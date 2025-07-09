@@ -1,6 +1,8 @@
 import pandas as pd
 import streamlit as st
 
+# Add the rest of the possible visualitations
+
 
 def bar_chart(data_frame: pd.DataFrame, suffix: int):
 
