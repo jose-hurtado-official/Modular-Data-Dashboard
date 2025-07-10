@@ -5,8 +5,6 @@ from data_loader import load_data
 from filter_utils import build_filters
 import visuals
 
-# Add the rest of the possible visualitations
-
 
 st.title("Welcome!")
 
@@ -46,7 +44,13 @@ if data:
                 else:
                     st.warning("There are not visualitations for removing")
 
-            vis_options = ["Bar chart"]
+            vis_options = [
+                "Bar chart",
+                "Area chart",
+                "Line chart",
+                "Scatter chart",
+                "Histogram chart",
+            ]
 
             for index in range(st.session_state.visual):
                 st.markdown(f":blue[***{index + 1}. Option***]")
@@ -64,6 +68,14 @@ if data:
                     match visualitation:
                         case "Bar chart":
                             visuals.bar_chart(filtered_data_frame, index)
+                        case "Area chart":
+                            visuals.area_chart(filtered_data_frame, index)
+                        case "Line chart":
+                            visuals.line_chart(filtered_data_frame, index)
+                        case "Scatter chart":
+                            visuals.scatter_chart(filtered_data_frame, index)
+                        case "Histogram chart":
+                            visuals.histogram_chart(filtered_data_frame, index)
 
             if st.button("Finish the program", type="primary"):
                 st.session_state.finished = True
