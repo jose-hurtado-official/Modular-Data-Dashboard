@@ -37,10 +37,10 @@ def area_chart(data_frame: pd.DataFrame, suffix: int):
 
     left, right = st.columns(2)
 
-    if left.button("Add area", key=f"add_areachart_button_{suffix}"):
+    if left.button("➕ Add area", key=f"add_areachart_button_{suffix}"):
         st.session_state.area_chart += 1
 
-    if right.button("Remove last area", key=f"rem_areachart_button_{suffix}"):
+    if right.button("➖ Remove last area", key=f"rem_areachart_button_{suffix}"):
         if st.session_state.area_chart > 0:
             st.session_state.area_chart -= 1
         else:
@@ -66,7 +66,7 @@ def area_chart(data_frame: pd.DataFrame, suffix: int):
         areas.append(column)
 
     if not areas:
-        st.info("Add at least one column to see the area chart.")
+        st.info("Add at least one column to see the area chart")
         return
 
     return st.area_chart(
@@ -81,10 +81,10 @@ def line_chart(data_frame: pd.DataFrame, suffix: int):
 
     left, right = st.columns(2)
 
-    if left.button("Add line", key=f"add_linechart_button_{suffix}"):
+    if left.button("➕ Add line", key=f"add_linechart_button_{suffix}"):
         st.session_state.line_chart += 1
 
-    if right.button("Remove last line", key=f"rem_linechart_button_{suffix}"):
+    if right.button("➖ Remove last line", key=f"rem_linechart_button_{suffix}"):
         if st.session_state.line_chart > 0:
             st.session_state.line_chart -= 1
         else:
@@ -110,7 +110,7 @@ def line_chart(data_frame: pd.DataFrame, suffix: int):
         lines.append(column)
 
     if not lines:
-        st.info("Add at least one column to see the line chart.")
+        st.info("Add at least one column to see the line chart")
         return
 
     return st.line_chart(
@@ -125,10 +125,10 @@ def scatter_chart(data_frame: pd.DataFrame, suffix: int):
 
     left, right = st.columns(2)
 
-    if left.button("Add scatter", key=f"add_scatterchart_button_{suffix}"):
+    if left.button("➕ Add scatter", key=f"add_scatterchart_button_{suffix}"):
         st.session_state.scatter_chart += 1
 
-    if right.button("Remove last line", key=f"rem_scatterchart_button_{suffix}"):
+    if right.button("➖ Remove last scatter", key=f"rem_scatterchart_button_{suffix}"):
         if st.session_state.scatter_chart > 0:
             st.session_state.scatter_chart -= 1
         else:
@@ -154,7 +154,7 @@ def scatter_chart(data_frame: pd.DataFrame, suffix: int):
         scatter.append(column)
 
     if not scatter:
-        st.info("Add at least one column to see the scatter chart.")
+        st.info("Add at least one column to see the scatter chart")
         return
 
     return st.scatter_chart(

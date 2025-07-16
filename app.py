@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 
-from data_loader import load_data
-from filter_utils import build_filters
-import visuals
+from dashboard_code.data_loader import load_data
+from dashboard_code.filter_utils import build_filters
+import dashboard_code.visuals as visuals
 
 
 st.title("Welcome!")
